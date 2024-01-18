@@ -3,7 +3,7 @@ function Task(id, description, cost) {
     throw new Error('Cannot create an instance of an abstract class.');
   }
 
-  this._id = "id";
+  this._id = id;
   if (typeof description === 'string') {
     this._description = description;
   } else {
