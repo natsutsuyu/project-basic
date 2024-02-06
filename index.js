@@ -15,6 +15,7 @@ class Task {
     } else {
       throw new Error("Incorrect type or value of cost!");
     }
+    this._done = false;
 
     Object.defineProperty(this, 'id', {
       get: function () {
@@ -36,7 +37,7 @@ class Task {
   }
 
   isDone() {
-    return false;
+    return this._done;
   }
 }
 
@@ -52,9 +53,11 @@ class IncomeTask extends Task {
   }
   makeDone(budget) {
     budget.income += this._cost;
+    this._done=true;
   }
   makeUnDone(budget) {
     budget.income -= this._cost;
+    this._done=false;
   }
 
 
@@ -64,10 +67,13 @@ class ExpenseTask extends Task {
     super(id, description, cost);
   }
   makeDone(budget) {
-    budget.extense += this._cost;
+    budget.expense += this._cost;
+    this._done=true;
+
   }
   makeUnDone(budget) {
-    budget.extense -= this._cost;
+    budget.expense -= this._cost;
+    this._done=false;
   }
 
 }
@@ -178,7 +184,6 @@ class BudgetController {
   }
 }
 
-
 const incomeTask1 = new IncomeTask('1', 'Заработок', 1000);
 const incomeTask2 = new IncomeTask('2', 'Проценты по вкладу', 200);
 const expenseTask1 = new ExpenseTask('3', 'Покупка продуктов', 300);
@@ -190,3 +195,13 @@ budgetController.addTasks(incomeTask1, incomeTask2, expenseTask1, expenseTask2);
 console.log('Баланс:', budgetController.balance); // 500
 console.log('Доход:', budgetController.income); // 0
 console.log('Расходы:', budgetController.expenses); // 0
+
+budgetController.doneTask(incomeTask1);
+budgetController.doneTask(expenseTask1);
+
+console.log('Баланс после выполнения задач:', budgetController.calculateBalance()); // 1200
+
+budgetController.unDoneTask(incomeTask1);
+budgetController.unDoneTask(expenseTask1);
+
+console.log('Баланс после отмены выполнения задач:', budgetController.calculateBalance());
