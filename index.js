@@ -67,12 +67,12 @@ class ExpenseTask extends Task {
     super(id, description, cost);
   }
   makeDone(budget) {
-    budget.expense += this._cost;
+    budget.expenses += this._cost;
     this._done=true;
 
   }
   makeUnDone(budget) {
-    budget.expense -= this._cost;
+    budget.expenses -= this._cost;
     this._done=false;
   }
 
